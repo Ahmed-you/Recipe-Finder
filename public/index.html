@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recipe App Design</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+      .recipe-card {
+        width: 360px;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+      }
+      .recipe-card img {
+        width: 360px;
+        height: auto;
+        display: block;
+      }
+      .recipe-content {
+        padding: 15px;
+      }
+      .recipe-title {
+        margin: 0 0 10px;
+        font-size: 1.5em;
+        color: #333;
+      }
+      .recipe-description {
+        font-size: 1em;
+        margin-bottom: 15px;
+        color: #666;
+      }
+      .ingredients {
+        height: 100px;
+        overflow-y: auto;
+        padding: 10px;
+        border-top: 1px solid #eee;
+        background: #fafafa;
+      }
+      .ingredients ul {
+        padding-left: 20px;
+        margin: 0;
+      }
+      .ingredients li {
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="recipe-card">
+      <img id="recipe-image" src="example-recipe.jpg" alt="Recipe Thumbnail" />
+      <div class="recipe-content">
+        <h2 id="recipe-title" class="recipe-title">Delicious Recipe</h2>
+        <p id="recipe-description" class="recipe-description">
+          A short description of the recipe goes here.
+        </p>
+        <div class="ingredients">
+          <strong>Ingredients:</strong>
+          <ul id="ingredients-list">
+            <li>Ingredient 1</li>
+            <li>Ingredient 2</li>
+            <li>Ingredient 3</li>
+            <!-- More ingredients -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript to fetch recipe data -->
+    <script>
+      async function fetchRecipe() {
+        try {
+          const apiKey = "YOUR_API_KEY"; // Replace with your Spoonacular API key
+          const url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=1`;
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.recipes && data.recipes.length) {
+            const recipe = data.recipes[0];
+            document.getElementById("recipe-title").textContent = recipe.title;
+            document.getElementById("recipe-description").textContent =
+              recipe.summary.replace(/<[^>]*>?/gm, "");
+            document.getElementById("recipe-image").src = recipe.image;
+
+            // Clear any existing ingredients
+            const ingredientsList = document.getElementById("ingredients-list");
+            ingredientsList.innerHTML = "";
+            if (recipe.extendedIngredients) {
+              recipe.extendedIngredients.forEach((ingredient) => {
+                const li = document.createElement("li");
+                li.textContent = ingredient.original;
+                ingredientsList.appendChild(li);
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching the recipe:", error);
+        }
+      }
+
+      // Fetch a recipe when the page loads
+      fetchRecipe();
+    </script>
+  </body>
+</html>

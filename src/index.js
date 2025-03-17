@@ -1,5 +1,5 @@
 import app from "./app.js";
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4001;
 // imported the main router
 
 //handel not found pages
