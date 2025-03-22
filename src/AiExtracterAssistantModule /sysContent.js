@@ -40,6 +40,7 @@ its NOT YOUR JOB
   "ready": true,
   "search_mode": "ingredients"
 }
+  NOTE IF YOU SUGGESTED AND RECIPE FROM HIS INGREDIENTS MAKE SURE ITS IN Spoonacular API 
 
 ### **3. When the user is asking about any thing else related **  
 {
